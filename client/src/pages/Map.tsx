@@ -8,6 +8,7 @@ import i_profile from "../assets/i_profile.png";
 import i_fav from "../assets/i_fav.png";
 import i_favout from "../assets/i_favout.png";
 import i_close12 from "../assets/i_close12.png";
+import i_close24 from "../assets/i_close24.png";
 import i_logout from "../assets/i_logout.png";
 import Loader from "../components/Loader";
 
@@ -15,6 +16,7 @@ export default function Map() {
   const [inputSearch, setInputSearch] = useState("");
   const [isClose, setIsClose] = useState(false);
   const [modalLogout, setModalLogout] = useState(false);
+  const [modalFav, setModalFav] = useState(false);
 
   return (
     <>
@@ -49,7 +51,9 @@ export default function Map() {
 
         <div className="map h-full w-full absolute top-0 left-0 z-0 bg-slate-400"></div>
 
+        {/* -------------------- */}
         {/* нижнее меню */}
+        {/* -------------------- */}
         <div className="w-full py-2 absolute bottom-0 right-0 z-40 bg-white flex items-center rounded-t-xl">
           <button className="flex justify-center items-center h-10 w-10">
             <img className="i_img" src={i_search} alt="Поиск" />
@@ -58,7 +62,7 @@ export default function Map() {
           <div className="relative flex-grow">
             <input
               type="text"
-              className="w-full rounded-lg py-2 px-4 text-sm bg-gray-300 text-black font-semibold caret-blue-700"
+              className="w-full rounded-lg py-2 px-4 text-sm bg-gray-300 text-black font-semibold caret-blue-500"
               onChange={(e) => {
                 if (e.target.value) {
                   setInputSearch(e.target.value);
@@ -84,15 +88,77 @@ export default function Map() {
             </button>
           </div>
 
-          <button className="flex justify-center items-center h-10 w-10">
+          <button
+            className="flex justify-center items-center h-10 w-10"
+            onClick={() => {
+              setModalFav(true);
+            }}
+          >
             <img className="i_img" src={i_favout} alt="Избранное" />
           </button>
         </div>
 
-        {/* модальное окно выхода*/}
+        {/* <div
+          className={
+            "w-full h-full absolute top-0 left-0 z-[60] transition-all bg-black/50 " +
+            (modalFav ? "opacity-100" : "opacity-0 pointer-events-none")
+          }
+        >
+          <div
+            className={
+              "absolute w-full h-4/5 bg-white px-4 py-4 rounded-t-xl duration-200 " +
+              (modalFav ? "bottom-0 left-0" : "top-full left-0")
+            }
+          >
+            <div className="item">text</div>
+          </div>
+        </div> */}
+
         <div
           className={
-            "w-full h-full flex justify-center items-center absolute top-0 left-0 z-50 transition-opacity duration-100 bg-black/50 " +
+            "w-full h-full absolute top-0 left-0 z-[60] transition-all duration-200 " +
+            (modalFav ? "opacity-100" : "opacity-0 pointer-events-none")
+          }
+          onClick={() => {
+            setModalFav(false);
+          }}
+        >
+          <div className="relative w-full h-full ">
+            <div
+              className={
+                "w-full h-full absolute top-0 left-0 bg-black/50 transition-all duration-200 " +
+                (modalFav ? "" : "")
+              }
+            ></div>
+
+            <div
+              className={
+                "absolute bottom-0 left-0 w-full h-[90%] flex flex-col bg-white px-2 py-2 rounded-t-xl transition-all duration-200 " +
+                (modalFav ? "translate-y-0" : "translate-y-full")
+              }
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-end">
+                <div
+                  className="p-2"
+                  onClick={() => {
+                    setModalFav(false);
+                  }}
+                >
+                  <img src={i_close24} />
+                </div>
+              </div>
+              <div className="item">айтемы завтра</div>
+            </div>
+          </div>
+        </div>
+
+        {/* -------------------- */}
+        {/* модальное окно выхода*/}
+        {/* -------------------- */}
+        <div
+          className={
+            "w-full h-full flex justify-center items-center absolute top-0 left-0 z-[1000] transition-opacity duration-100 bg-black/50 " +
             (modalLogout
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none")
