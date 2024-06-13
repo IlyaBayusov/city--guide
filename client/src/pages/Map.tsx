@@ -11,12 +11,14 @@ import i_close12 from "../assets/i_close12.png";
 import i_close24 from "../assets/i_close24.png";
 import i_logout from "../assets/i_logout.png";
 import Loader from "../components/Loader";
+import img_fav1 from "../assets/img_fav1.png";
 
 export default function Map() {
   const [inputSearch, setInputSearch] = useState("");
   const [isClose, setIsClose] = useState(false);
   const [modalLogout, setModalLogout] = useState(false);
   const [modalFav, setModalFav] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   return (
     <>
@@ -98,22 +100,9 @@ export default function Map() {
           </button>
         </div>
 
-        {/* <div
-          className={
-            "w-full h-full absolute top-0 left-0 z-[60] transition-all bg-black/50 " +
-            (modalFav ? "opacity-100" : "opacity-0 pointer-events-none")
-          }
-        >
-          <div
-            className={
-              "absolute w-full h-4/5 bg-white px-4 py-4 rounded-t-xl duration-200 " +
-              (modalFav ? "bottom-0 left-0" : "top-full left-0")
-            }
-          >
-            <div className="item">text</div>
-          </div>
-        </div> */}
-
+        {/* -------------------- */}
+        {/* модальное окно избранных */}
+        {/* -------------------- */}
         <div
           className={
             "w-full h-full absolute top-0 left-0 z-[60] transition-all duration-200 " +
@@ -133,14 +122,16 @@ export default function Map() {
 
             <div
               className={
-                "absolute bottom-0 left-0 w-full h-[90%] flex flex-col bg-white px-2 py-2 rounded-t-xl transition-all duration-200 " +
+                "absolute bottom-0 left-0 w-full h-[90%] flex flex-col bg-white px-4 py-4 rounded-t-xl transition-all duration-200 " +
                 (modalFav ? "translate-y-0" : "translate-y-full")
               }
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-end">
+              <div className="flex justify-between items-center mb-2">
+                <p className="font-semibold">Избранное</p>
+
                 <div
-                  className="p-2"
+                  className="-mr-1"
                   onClick={() => {
                     setModalFav(false);
                   }}
@@ -148,7 +139,54 @@ export default function Map() {
                   <img src={i_close24} />
                 </div>
               </div>
-              <div className="item">айтемы завтра</div>
+              <div className="item w-full px-3 py-3 border-2 border-gray-300 rounded-xl">
+                <div className="mb-3">
+                  <img src={img_fav1} alt="" className="rounded-md" />
+                </div>
+
+                <div className="flex flex-col">
+                  <p className="text-xs font-medium mb-3">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Doloribus, ratione mollitia omnis exercitationem consectetur
+                    voluptatibus obcaecati nesciunt! Error molestias
+                    voluptatibus eius. Culpa necessitatibus earum officiis saepe
+                    natus corporis ut non!
+                  </p>
+
+                  <div className="flex justify-between items-center">
+                    <button
+                      className="relative p-2 border-2 border-gray-300 rounded-md"
+                      onClick={() => {
+                        !isFav ? setIsFav(true) : setIsFav(false);
+                      }}
+                    >
+                      <img
+                        className={
+                          "img-1 i_img transition-opacity " +
+                          (isFav
+                            ? "opacity-0 pointer-events-none"
+                            : "opacity-100")
+                        }
+                        src={i_favout}
+                        alt="Избранное"
+                      />
+                      <img
+                        className={
+                          "img-2 i_img absolute top-0 left-0 right-0 bottom-0 m-auto transition-opacity " +
+                          (isFav
+                            ? "opacity-100"
+                            : "opacity-0 pointer-events-none")
+                        }
+                        src={i_fav}
+                        alt="Избранное"
+                      />
+                    </button>
+                    <button className="px-3 py-2 text-sm text-white font-medium bg-blue-600 rounded-md">
+                      Маршрут
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
