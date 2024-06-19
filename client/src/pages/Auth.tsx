@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../context";
 
-const useValidation = (value, valids) => {
+const useValidation = (value: string, valids: object) => {
   const [empty, setEmpty] = useState(true);
   const [minLength, setMinLength] = useState(false);
   const [inputValid, setInputValid] = useState(false);
@@ -37,7 +37,7 @@ const useValidation = (value, valids) => {
   };
 };
 
-const useInput = (initValue, valids) => {
+const useInput = (initValue: string, valids: object) => {
   const [value, setValue] = useState(initValue);
   const [dirty, setDirty] = useState(false);
   const valid = useValidation(value, valids);
@@ -63,13 +63,13 @@ export default function Auth() {
     <>
       <div className="wrapper">
         <div className="w-full h-full flex justify-center items-center bg-black/50">
-          <div className="p-4 flex flex-col items-center bg-white rounded-xl">
-            <p className="mb-3 font-medium text-sm">Авторизация</p>
+          <div className="p-4 md:p-5 flex flex-col items-center bg-white rounded-xl">
+            <p className="mb-3 font-medium md:text-base text-sm">Авторизация</p>
 
             <div className="mb-2 flex flex-col items-center">
               <div className="mb-2">
                 <input
-                  className=" px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
+                  className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
                   type="text"
                   placeholder="Введите логин"
                   value={login.value}
@@ -97,7 +97,7 @@ export default function Auth() {
               </div>
               <div className="mb-1">
                 <input
-                  className="px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
+                  className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
                   type="password"
                   placeholder="Введите пароль"
                   value={password.value}
@@ -123,11 +123,11 @@ export default function Auth() {
                   false
                 )}
               </div>
-              <Link to="/forgotPass" className="mb-3 text-sm">
+              <Link to="/forgotPass" className="mb-3 md:mb-5 text-sm">
                 Забыли пароль?
               </Link>{" "}
               <button
-                className="px-4 py-2 text-white bg-blue-500 rounded-lg font-medium text-sm"
+                className="px-4 py-2 md:px-6 text-white bg-blue-500 rounded-lg font-medium text-sm"
                 onClick={() => store.login(login.value, password.value)}
               >
                 Войти

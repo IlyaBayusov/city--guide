@@ -10,7 +10,7 @@ export default function MapPage() {
   const [modalLogout, setModalLogout] = useState(false);
   const [modalFav, setModalFav] = useState(false);
   const [coords, setCoords] = useState([]);
-  const [userLocation, setUserLocation] = useState([]);
+  const [userLocation, setUserLocation] = useState<number[]>([]);
 
   const { store } = useContext(Context);
 
@@ -25,6 +25,7 @@ export default function MapPage() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+
           setUserLocation([latitude, longitude]);
         },
         (error) => {
