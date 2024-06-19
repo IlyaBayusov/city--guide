@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../context";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const useValidation = (value: string, valids: object) => {
   const [empty, setEmpty] = useState(true);
@@ -54,10 +55,22 @@ const useInput = (initValue: string, valids: object) => {
 };
 
 export default function Auth() {
-  const login = useInput("", { empty: true, minLength: 4 });
+  const email = useInput("", { empty: true, minLength: 4 });
   const password = useInput("", { empty: true, minLength: 8 });
 
   const { store } = useContext(Context);
+
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const auth = getAuth();
+      const req = await signInWithEmailAndPassword(auth, email, password);
+
+      store.login();
+      console.log(req);
+    } catch (error) {
+      console.error("Ошибка", error);
+    }
+  };
 
   return (
     <>
@@ -72,22 +85,22 @@ export default function Auth() {
                   className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
                   type="text"
                   placeholder="Введите логин"
-                  value={login.value}
+                  value={email.value}
                   onChange={(e) => {
-                    login.onChange(e);
+                    email.onChange(e);
                   }}
                   onBlur={(e) => {
-                    login.onBlur(e);
+                    email.onBlur(e);
                   }}
                 />
-                {login.dirty && login.empty ? (
+                {email.dirty && email.empty ? (
                   <p className="text-red-500 font-medium text-xs">
                     Поле пустое
                   </p>
                 ) : (
                   false
                 )}
-                {login.dirty && login.minLength ? (
+                {email.dirty && email.minLength ? (
                   <p className="text-red-500 font-medium text-xs">
                     Мин. 4 символа
                   </p>
@@ -128,7 +141,7 @@ export default function Auth() {
               </Link>{" "}
               <button
                 className="px-4 py-2 md:px-6 text-white bg-blue-500 rounded-lg font-medium text-sm"
-                onClick={() => store.login(login.value, password.value)}
+                onClick={() => handleLogin(email.value, password.value)}
               >
                 Войти
               </button>

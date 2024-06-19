@@ -14,6 +14,8 @@ import {
 import Loader from "./components/Loader/Loader";
 
 export default observer(function App() {
+  const [isLoader, setIsLoader] = useState(true);
+
   useEffect(() => {
     if (localStorage.getItem("auth")) {
       store.setIsAuth(true);
@@ -24,9 +26,10 @@ export default observer(function App() {
 
   useEffect(() => {
     store.setIsLoading(false);
-  }, [store.isLoading]);
+    setIsLoader(false);
+  }, []);
 
-  if (store.isLoading)
+  if (isLoader || store.isLoading)
     return (
       <div className="w-full h-full absolute top-0 left-0 z-[1000] bg-slate-400">
         <div className="w-full h-full flex justify-center items-center bg-slate-400">

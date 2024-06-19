@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context";
 import { Link } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const useValidation = (value: string, valids: object) => {
   const [empty, setEmpty] = useState(true);
@@ -54,11 +55,23 @@ const useInput = (initValue: string, valids: object) => {
 };
 
 export default function Registr() {
-  const login = useInput("", { empty: true, minLength: 4 });
+  const email = useInput("", { empty: true, minLength: 4 });
   const password = useInput("", { empty: true, minLength: 8 });
   const passwordSecond = useInput("", { empty: true, minLength: 8 });
 
   const { store } = useContext(Context);
+
+  const handleRegistr = async (email: string, password: string) => {
+    try {
+      const auth = getAuth();
+      const req = await createUserWithEmailAndPassword(auth, email, password);
+
+      store.registration();
+      console.log(req);
+    } catch (error) {
+      console.error("Ошибка", error);
+    }
+  };
 
   return (
     <>
@@ -73,22 +86,22 @@ export default function Registr() {
                   className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
                   type="text"
                   placeholder="Введите логин"
-                  value={login.value}
+                  value={email.value}
                   onChange={(e) => {
-                    login.onChange(e);
+                    email.onChange(e);
                   }}
                   onBlur={(e) => {
-                    login.onBlur(e);
+                    email.onBlur(e);
                   }}
                 />
-                {login.dirty && login.empty ? (
+                {email.dirty && email.empty ? (
                   <p className="text-red-500 font-medium text-xs">
                     Поле пустое
                   </p>
                 ) : (
                   false
                 )}
-                {login.dirty && login.minLength ? (
+                {email.dirty && email.minLength ? (
                   <p className="text-red-500 font-medium text-xs">
                     Мин. 4 символа
                   </p>
@@ -156,18 +169,12 @@ export default function Registr() {
               </div>
               <button
                 className="px-4 py-2 md:px-6 mb-2 text-white bg-blue-500 rounded-lg font-medium text-sm"
-                onClick={() =>
-                  store.registration(
-                    login.value,
-                    password.value,
-                    passwordSecond.value
-                  )
-                }
+                onClick={() => handleRegistr(email.value, password.value)}
               >
                 Зарегистрироваться
               </button>
 
-              <Link to="/login" className="text-sm">
+              <Link to="/email" className="text-sm">
                 Авторизация
               </Link>
             </div>
