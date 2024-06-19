@@ -29,7 +29,6 @@ ul {
 }
 
 img {
-  /*pointer-events: none;*/
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none; /*запрет выделения img*/
@@ -52,4 +51,24 @@ button {
 .i_img {
   width: 24px !important;
   height: 24px !important;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: #ff3d00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

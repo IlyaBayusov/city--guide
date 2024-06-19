@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "../../context";
 
 interface ModalLogout {
   modalLogout: boolean;
@@ -9,6 +10,8 @@ const ModalLogout: React.FC<ModalLogout> = ({
   modalLogout,
   setModalLogout,
 }) => {
+  const { store } = useContext(Context);
+
   return (
     <div
       className={
@@ -28,7 +31,11 @@ const ModalLogout: React.FC<ModalLogout> = ({
         <div className="w-full flex justify-around items-center">
           <button
             className="bg-gray-300 w-14 py-2 text-sm font-semibold rounded-lg"
-            onClick={() => setModalLogout()}
+            onClick={() => {
+              store.setIsLoading(true);
+              setModalLogout();
+              store.logout();
+            }}
           >
             Да
           </button>
