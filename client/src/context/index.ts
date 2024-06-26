@@ -10,6 +10,8 @@ interface State {
   >;
   zoom: number;
   setZoom: React.Dispatch<React.SetStateAction<number>>;
+  arrCategoriesTypes: string[];
+  setArrCategoriesTypes: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const store = new Store();
@@ -20,4 +22,6 @@ export const Context = createContext<State>({
   setMapCenter: () => {},
   zoom: 9,
   setZoom: () => {},
+  arrCategoriesTypes: [],
+  setArrCategoriesTypes: () => {},
 });

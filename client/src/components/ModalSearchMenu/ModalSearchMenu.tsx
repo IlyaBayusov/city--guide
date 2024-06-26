@@ -51,12 +51,12 @@ export default function ModalSearchMenu({
 
         <div
           className={
-            "absolute bottom-0 left-1/2 -translate-x-1/2 w-full sm:min-w-96 sm:max-w-lg h-[90%] flex flex-col bg-white py-3 px-3 rounded-t-xl transition-all duration-200 " +
+            "absolute bottom-0 left-1/2 -translate-x-1/2 w-full sm:min-w-96 sm:max-w-lg h-[90%] flex flex-col bg-white py-4 px-4 rounded-t-xl transition-all duration-200 " +
             (modalSearchMenu ? "translate-y-0" : "translate-y-full")
           }
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between -mx-2">
+          <div className="flex items-center justify-between -mx-3">
             <button
               className="flex justify-center items-center h-10 w-10"
               onClick={setModalSearchMenu}
@@ -67,7 +67,7 @@ export default function ModalSearchMenu({
             <div className="relative flex-grow">
               <input
                 type="text"
-                className="w-full rounded-lg py-2 px-4 text-sm bg-gray-300 text-black font-medium caret-blue-500"
+                className="w-full rounded-lg py-2 px-4 text-sm border border-gray-300 bg-gray-100 text-black font-medium caret-blue-500"
                 onChange={(e) => inputChange(e)}
                 value={inputSearch}
               />
@@ -90,7 +90,7 @@ export default function ModalSearchMenu({
             </button>
           </div>
 
-          <p className="mt-3 text-sm font-medium">Категории</p>
+          <p className="mt-3 text-sm font-semibold">Категории</p>
 
           <ModalSearchMenuCategories />
         </div>

@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { observer } from "mobx-react-lite";
-import { useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 
 import Loader from "./components/Loader/Loader";
-import { Context, store } from "./context";
+import { Context, store } from "./context/index";
 import Auth from "./pages/Auth";
 import MapPage from "./pages/MapPage";
 import Registr from "./pages/Registr";
@@ -22,6 +22,7 @@ export default observer(function App() {
     lng: 27.56,
   });
   const [zoom, setZoom] = useState(9);
+  const [arrCategoriesTypes, setArrCategoriesTypes] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -32,7 +33,6 @@ export default observer(function App() {
   }, [store.isAuth]);
 
   useEffect(() => {
-    // store.setIsLoading(false);
     setIsLoader(false);
   }, []);
 
@@ -59,6 +59,8 @@ export default observer(function App() {
           setMapCenter,
           zoom,
           setZoom,
+          arrCategoriesTypes,
+          setArrCategoriesTypes,
         }}
       >
         <Routes>

@@ -31,7 +31,7 @@ const SearchMenu: React.FC<SearchMenu> = ({
           <input
             onClick={handleClick}
             type="text"
-            className="w-full rounded-lg py-2 px-4 text-sm bg-gray-300 text-black font-medium caret-blue-500"
+            className="w-full rounded-lg py-2 px-4 text-sm border border-gray-300 bg-gray-100 text-black font-medium caret-blue-500"
           />
         </div>
 

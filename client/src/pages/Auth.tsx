@@ -2,8 +2,8 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Context } from "../context";
 import { useInput } from "../hooks/Validations";
+import { Context } from "../context";
 
 export default function Auth() {
   const email = useInput("", { empty: true, minLength: 4 });

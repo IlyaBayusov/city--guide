@@ -90,7 +90,26 @@ const MapItem = () => {
   const [places, setPlaces] = useState([]);
   const mapRef = useRef(null);
 
-  const { mapCenter, zoom } = useContext(Context);
+  const { mapCenter, zoom, arrCategoriesTypes, setArrCategoriesTypes } =
+    useContext(Context);
+
+  useEffect(() => {
+    const loadGoogleMapsAPI = async () => {
+      if (!window.google) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDwvdUv3uftChhHm4JfYaufOt1rZcAkhtY&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => setIsLoaded(true);
+
+        document.head.appendChild(script);
+      } else {
+        setIsLoaded(true);
+      }
+    };
+
+    loadGoogleMapsAPI();
+  }, []);
 
   useEffect(() => {
     const loadGoogleMapsAPI = async () => {
@@ -114,26 +133,25 @@ const MapItem = () => {
       const map = mapRef.current;
       const service = new window.google.maps.places.PlacesService(map);
 
+      console.log("запрос ушел");
+
       const request = {
         location: mapCenter,
         radius: 1000,
-        type: [
-          "tourist_attraction",
-          "art_gallery",
-          "museum",
-          "performing_arts_theater",
-          "national_park",
-          "night_club",
-        ],
+        type: arrCategoriesTypes,
       };
 
-      service.nearbySearch(request, (results, status) => {
+      service.nearbySearch(request, (results, status, pagination) => {
+        console.log(pagination);
+
         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
           setPlaces(results);
         }
       });
     }
-  }, [isLoaded]);
+  }, [isLoaded, arrCategoriesTypes]);
+
+  console.log(places);
 
   if (!isLoaded) return "Loading Maps...";
 
