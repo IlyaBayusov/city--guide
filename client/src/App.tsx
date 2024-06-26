@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -36,6 +36,11 @@ export default observer(function App() {
     setIsLoader(false);
   }, []);
 
+  const main = "/";
+  const reg = "/reg";
+  const login = "/login";
+  const forgotPass = "/forgotPass";
+
   if (isLoader)
     return (
       <div className="w-full h-full absolute top-0 left-0 z-[1000] bg-slate-400">
@@ -48,20 +53,26 @@ export default observer(function App() {
   return (
     <Router>
       <Context.Provider
-        value={{ store, mapCenter, setMapCenter, zoom, setZoom }}
+        value={{
+          store,
+          mapCenter,
+          setMapCenter,
+          zoom,
+          setZoom,
+        }}
       >
         <Routes>
           {store.isAuth ? (
             <>
-              <Route path="/" element={<MapPage />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path={main} element={<MapPage />} />
+              <Route path="*" element={<Navigate to={main} replace />} />
             </>
           ) : (
             <>
-              <Route path="/login" element={<Auth />} />
-              <Route path="/reg" element={<Registr />} />
-              <Route path="/forgotPass" element={<Auth />} />
-              <Route path="*" element={<Navigate to="/login" replace />} />
+              <Route path={login} element={<Auth />} />
+              <Route path={reg} element={<Registr />} />
+              <Route path={forgotPass} element={<Auth />} />
+              <Route path="*" element={<Navigate to={login} replace />} />
             </>
           )}
         </Routes>

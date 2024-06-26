@@ -1,7 +1,8 @@
 import { useState } from "react";
 import i_search from "@/assets/i_search.png";
 import i_close12 from "@/assets/i_close12.png";
-import i_favout from "@/assets/i_favout.png";
+import i_close24 from "@/assets/i_close24.png";
+import ModalSearchMenuCategories from "../ModalSearchMenuCategories/ModalSearchMenuCategories";
 
 type Props = {
   modalSearchMenu: boolean;
@@ -15,10 +16,25 @@ export default function ModalSearchMenu({
   const [inputSearch, setInputSearch] = useState("");
   const [isClose, setIsClose] = useState(false);
 
+  const inputChange = (e) => {
+    if (e.target.value) {
+      setInputSearch(e.target.value);
+      setIsClose(true);
+    } else {
+      setInputSearch(e.target.value);
+      setIsClose(false);
+    }
+  };
+
+  const buttonClick = () => {
+    setIsClose(false);
+    setInputSearch("");
+  };
+
   return (
     <div
       className={
-        "w-full h-full absolute top-0 left-0 z-[60] transition-all duration-200 " +
+        "w-full h-full absolute top-0 left-0 z-[70] transition-all duration-200 " +
         (modalSearchMenu ? "opacity-100" : "opacity-0 pointer-events-none")
       }
       onClick={() => {
@@ -52,15 +68,7 @@ export default function ModalSearchMenu({
               <input
                 type="text"
                 className="w-full rounded-lg py-2 px-4 text-sm bg-gray-300 text-black font-medium caret-blue-500"
-                onChange={(e) => {
-                  if (e.target.value) {
-                    setInputSearch(e.target.value);
-                    setIsClose(true);
-                  } else {
-                    setInputSearch(e.target.value);
-                    setIsClose(false);
-                  }
-                }}
+                onChange={(e) => inputChange(e)}
                 value={inputSearch}
               />
               <button
@@ -68,10 +76,7 @@ export default function ModalSearchMenu({
                   "absolute mr-2 p-1 top-1/2 right-0 -translate-y-1/2 z-20 bg-gray-600 rounded-md transition duration-75 cursor-pointer " +
                   (isClose ? "opacity-100" : "opacity-0")
                 }
-                onClick={() => {
-                  setIsClose(false);
-                  setInputSearch("");
-                }}
+                onClick={buttonClick}
               >
                 <img src={i_close12} />
               </button>
@@ -79,13 +84,15 @@ export default function ModalSearchMenu({
 
             <button
               className="flex justify-center items-center h-10 w-10"
-              // onClick={() => {
-              //   setModalFav();
-              // }}
+              onClick={setModalSearchMenu}
             >
-              <img className="i_img" src={i_favout} alt="Избранное" />
+              <img src={i_close24} />
             </button>
           </div>
+
+          <p className="mt-3 text-sm font-medium">Категории</p>
+
+          <ModalSearchMenuCategories />
         </div>
       </div>
     </div>

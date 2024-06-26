@@ -72,3 +72,12 @@ button {
     transform: rotate(360deg);
   }
 }
+
+.no-scrollbar {
+  scrollbar-width: none; /* Для Firefox */
+  -ms-overflow-style: none; /* Для IE и Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Для Chrome, Safari и Opera */
+}

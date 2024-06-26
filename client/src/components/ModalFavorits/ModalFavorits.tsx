@@ -18,9 +18,7 @@ export default function ModalFavorits({ modalFav, setModalFav }) {
         "w-full h-full absolute top-0 left-0 z-[60] transition-all duration-200 " +
         (modalFav ? "opacity-100" : "opacity-0 pointer-events-none")
       }
-      onClick={() => {
-        setModalFav();
-      }}
+      onClick={setModalFav}
     >
       <div className="relative w-full h-full ">
         <div
@@ -40,12 +38,7 @@ export default function ModalFavorits({ modalFav, setModalFav }) {
           <div className="flex justify-between items-center mb-2">
             <p className="font-semibold">Избранное</p>
 
-            <div
-              className="-mr-1 cursor-pointer"
-              onClick={() => {
-                setModalFav();
-              }}
-            >
+            <div className="-mr-1 cursor-pointer" onClick={setModalFav}>
               <img src={i_close24} />
             </div>
           </div>{" "}
