@@ -1,14 +1,37 @@
-import i_logout from "../../assets/i_logout.png";
-import i_plus from "../../assets/i_plus.png";
-import i_minus from "../../assets/i_minus.png";
-import i_center from "../../assets/i_center.png";
-import React from "react";
+import React, { useContext } from "react";
+
+import i_center from "@/assets/i_center.png";
+import i_logout from "@/assets/i_logout.png";
+import i_minus from "@/assets/i_minus.png";
+import i_plus from "@/assets/i_plus.png";
+import { Context } from "../../context";
 
 interface MapNav {
   setModalLogout: () => void;
 }
 
 const MapNav: React.FC<MapNav> = ({ setModalLogout }) => {
+  const { mapCenter, setMapCenter, zoom, setZoom } = useContext(Context);
+
+  const zoomPlus = () => setZoom(zoom + 1);
+  const zoomMinus = () => setZoom(zoom - 1);
+
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setMapCenter({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error("Ошибка при получении геопозиции:", error);
+        }
+      );
+    } else {
+      console.error("Геолокация не поддерживается вашим браузером");
+    }
+  };
+
   return (
     <div className="h-full p-2 relative pointer-events-none">
       <div className="nav w-full h-full relative z-10">
@@ -20,14 +43,23 @@ const MapNav: React.FC<MapNav> = ({ setModalLogout }) => {
         </button>
 
         <div className="absolute bottom-10 right-0 mb-6 flex flex-col gap-2 items-center pointer-events-auto">
-          <button className="flex justify-center items-center bg-white/85 rounded-xl h-10 w-10">
+          <button
+            onClick={zoomPlus}
+            className="flex justify-center items-center bg-white/85 rounded-xl h-10 w-10"
+          >
             <img className="i_img" src={i_plus} alt="Увеличить масштаб" />
           </button>
-          <button className="flex justify-center items-center bg-white/85 rounded-xl h-10 w-10">
+          <button
+            onClick={zoomMinus}
+            className="flex justify-center items-center bg-white/85 rounded-xl h-10 w-10"
+          >
             <img className="i_img" src={i_minus} alt="Уменьшить масштаб" />
           </button>
 
-          <button className="flex justify-center items-center mt-2 bg-white/85 rounded-full h-11 w-11">
+          <button
+            onClick={getCurrentLocation}
+            className="flex justify-center items-center mt-2 bg-white/85 rounded-full h-11 w-11"
+          >
             <img className="i_img" src={i_center} alt="Центрировать на метке" />
           </button>
         </div>

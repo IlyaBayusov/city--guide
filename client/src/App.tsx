@@ -1,20 +1,27 @@
-import { useEffect, useState } from "react";
 import "./App.css";
+
+import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+
+import Loader from "./components/Loader/Loader";
+import { Context, store } from "./context";
 import Auth from "./pages/Auth";
 import MapPage from "./pages/MapPage";
 import Registr from "./pages/Registr";
-import { Context, store } from "./context";
-import { observer } from "mobx-react-lite";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import Loader from "./components/Loader/Loader";
 
 export default observer(function App() {
   const [isLoader, setIsLoader] = useState(true);
+  const [mapCenter, setMapCenter] = useState({
+    lat: 53.9,
+    lng: 27.56,
+  });
+  const [zoom, setZoom] = useState(9);
 
   useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -25,11 +32,11 @@ export default observer(function App() {
   }, [store.isAuth]);
 
   useEffect(() => {
-    store.setIsLoading(false);
+    // store.setIsLoading(false);
     setIsLoader(false);
   }, []);
 
-  if (isLoader || store.isLoading)
+  if (isLoader)
     return (
       <div className="w-full h-full absolute top-0 left-0 z-[1000] bg-slate-400">
         <div className="w-full h-full flex justify-center items-center bg-slate-400">
@@ -40,7 +47,9 @@ export default observer(function App() {
 
   return (
     <Router>
-      <Context.Provider value={{ store }}>
+      <Context.Provider
+        value={{ store, mapCenter, setMapCenter, zoom, setZoom }}
+      >
         <Routes>
           {store.isAuth ? (
             <>

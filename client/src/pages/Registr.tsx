@@ -1,58 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { Context } from "../context";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-const useValidation = (value: string, valids: object) => {
-  const [empty, setEmpty] = useState(true);
-  const [minLength, setMinLength] = useState(false);
-  const [inputValid, setInputValid] = useState(false);
-
-  useEffect(() => {
-    for (const valid in valids) {
-      switch (valid) {
-        case "minLength":
-          value.length < valids[valid]
-            ? setMinLength(true)
-            : setMinLength(false);
-          break;
-        case "empty":
-          value ? setEmpty(false) : setEmpty(true);
-          break;
-      }
-    }
-  }, [value]);
-
-  useEffect(() => {
-    if (empty || minLength) {
-      setInputValid(false);
-    } else {
-      setInputValid(true);
-    }
-  }, [empty, minLength]);
-
-  return {
-    empty,
-    minLength,
-    inputValid,
-  };
-};
-
-const useInput = (initValue: string, valids: object) => {
-  const [value, setValue] = useState<string>(initValue);
-  const [dirty, setDirty] = useState(false);
-  const valid = useValidation(value, valids);
-
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  const onBlur = (e) => {
-    setDirty(true);
-  };
-
-  return { value, onChange, onBlur, dirty, ...valid };
-};
+import { Context } from "../context";
+import { useInput } from "../hooks/Validations";
 
 export default function Registr() {
   const email = useInput("", { empty: true, minLength: 4 });
@@ -85,7 +36,7 @@ export default function Registr() {
                 <input
                   className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
                   type="text"
-                  placeholder="Введите логин"
+                  placeholder="Введите Email"
                   value={email.value}
                   onChange={(e) => {
                     email.onChange(e);

@@ -1,9 +1,10 @@
-import img_fav1 from "../../assets/img_fav1.png";
-import i_fav from "../../assets/i_fav.png";
-import i_favout from "../../assets/i_favout.png";
 import { useState } from "react";
 
-export default function ModalFavorits_item() {
+import i_fav from "@/assets/i_fav.png";
+import i_favout from "@/assets/i_favout.png";
+import img_fav1 from "@/assets/img_fav1.png";
+
+export default function ModalFavoritsItem() {
   const [isFav, setIsFav] = useState(false);
 
   return (

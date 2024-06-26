@@ -1,6 +1,8 @@
 import { useState } from "react";
-import i_close24 from "../../assets/i_close24.png";
-import ModalFavorits_item from "../ModalFavorits_Item/ModalFavorits_item";
+
+import i_close24 from "@/assets/i_close24.png";
+
+import ModalFavorits_item from "../ModalFavoritsItem/ModalFavoritsItem";
 
 export default function ModalFavorits({ modalFav, setModalFav }) {
   const [modalFavItem, setModalFavItem] = useState({
