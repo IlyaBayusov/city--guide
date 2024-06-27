@@ -14,16 +14,20 @@ export default function ModalSearchMenu({
   setModalSearchMenu,
 }: Props) {
   const [inputSearch, setInputSearch] = useState("");
+  const [inputRadius, setInputRadius] = useState(1000);
   const [isClose, setIsClose] = useState(false);
 
   const inputChange = (e) => {
     if (e.target.value) {
-      setInputSearch(e.target.value);
       setIsClose(true);
     } else {
-      setInputSearch(e.target.value);
       setIsClose(false);
     }
+    setInputSearch(e.target.value);
+  };
+
+  const inputRadiusChange = (e) => {
+    setInputRadius(e.target.value);
   };
 
   const buttonClick = () => {
@@ -67,6 +71,7 @@ export default function ModalSearchMenu({
             <div className="relative flex-grow">
               <input
                 type="text"
+                placeholder="Поиск"
                 className="w-full rounded-lg py-2 px-4 text-sm border border-gray-300 bg-gray-100 text-black font-medium caret-blue-500"
                 onChange={(e) => inputChange(e)}
                 value={inputSearch}
@@ -90,9 +95,23 @@ export default function ModalSearchMenu({
             </button>
           </div>
 
-          <p className="mt-3 text-sm font-semibold">Категории</p>
+          <div>
+            <p className="mt-3 text-sm font-semibold">Радиус, м.</p>
 
-          <ModalSearchMenuCategories />
+            <input
+              type="number"
+              placeholder="Радиус"
+              className="max-w-20 no-arrows mt-3 rounded-lg py-2 px-4 text-xs border border-gray-300 bg-gray-100 text-black font-medium caret-blue-500"
+              onChange={(e) => inputRadiusChange(e)}
+              value={inputRadius}
+            />
+          </div>
+
+          <div>
+            <p className="mt-3 text-sm font-semibold">Категории</p>
+
+            <ModalSearchMenuCategories />
+          </div>
         </div>
       </div>
     </div>

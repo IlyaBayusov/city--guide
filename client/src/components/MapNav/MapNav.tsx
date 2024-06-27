@@ -22,6 +22,7 @@ const MapNav: React.FC<MapNav> = ({ setModalLogout }) => {
         (position) => {
           const { latitude, longitude } = position.coords;
           setMapCenter({ lat: latitude, lng: longitude });
+          setZoom(15);
         },
         (error) => {
           console.error("Ошибка при получении геопозиции:", error);

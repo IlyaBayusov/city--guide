@@ -2,8 +2,9 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { useInput } from "../hooks/Validations";
+import { useInput } from "../hooks/useInput";
 import { Context } from "../context";
+import AuthInput from "../components/AuthInput/AuthInput";
 
 export default function Auth() {
   const email = useInput("", { empty: true, minLength: 4 });
@@ -32,17 +33,10 @@ export default function Auth() {
 
             <div className="mb-2 flex flex-col items-center">
               <div className="mb-2">
-                <input
-                  className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
+                <AuthInput
+                  inputName={email}
+                  placeholder="Введите email"
                   type="text"
-                  placeholder="Введите Email"
-                  value={email.value}
-                  onChange={(e) => {
-                    email.onChange(e);
-                  }}
-                  onBlur={(e) => {
-                    email.onBlur(e);
-                  }}
                 />
                 {email.dirty && email.empty ? (
                   <p className="text-red-500 font-medium text-xs">
@@ -60,17 +54,10 @@ export default function Auth() {
                 )}
               </div>
               <div className="mb-1">
-                <input
-                  className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
-                  type="password"
+                <AuthInput
+                  inputName={password}
                   placeholder="Введите пароль"
-                  value={password.value}
-                  onChange={(e) => {
-                    password.onChange(e);
-                  }}
-                  onBlur={(e) => {
-                    password.onBlur(e);
-                  }}
+                  type="password"
                 />
                 {password.dirty && password.empty ? (
                   <p className="text-red-500 font-medium text-xs">

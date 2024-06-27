@@ -13,3 +13,5 @@ export const foodDeliveryTypes = ["meal_delivery", "meal_takeaway"];
 export const carWashesTypes = ["car_wash"];
 export const autoServicesTypes = ["car_repair"];
 export const fitnessTypes = ["gym"];
+
+export const locMinsk = { lat: 53.9, lng: 27.56 };

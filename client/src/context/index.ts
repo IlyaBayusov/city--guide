@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 import Store from "../Store/Store";
+import { locMinsk } from "../constans/constans";
 
 interface State {
   store: Store;
@@ -18,7 +19,7 @@ export const store = new Store();
 
 export const Context = createContext<State>({
   store,
-  mapCenter: { lat: 53.9, lng: 27.56 },
+  mapCenter: locMinsk,
   setMapCenter: () => {},
   zoom: 9,
   setZoom: () => {},
