@@ -9,7 +9,9 @@ const mapContainerStyle = {
   height: "100vh",
 };
 
-const MapItem = () => {
+type Props = { modalInfoPlace: boolean; setModalInfoPlace: () => boolean };
+
+const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const mapRef = useRef(null);
 
@@ -152,7 +154,7 @@ const MapItem = () => {
             lng: place.position.lng,
           }}
           options={circleOptionsMark}
-          onClick={showModalInfoPlace}
+          onClick={setModalInfoPlace}
         />
       ))}
     </GoogleMap>

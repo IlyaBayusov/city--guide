@@ -2,6 +2,8 @@ import i_close24 from "@/assets/i_close24.png";
 import { useState } from "react";
 import i_fav from "@/assets/i_fav.png";
 import i_favout from "@/assets/i_favout.png";
+import i_starGray from "@/assets/i_starGray.png";
+import i_starYellow from "@/assets/i_starYellow.png";
 
 type Props = { modalInfoPlace: boolean; setModalInfoPlace: () => boolean };
 
@@ -11,6 +13,7 @@ export default function ModalInfoPlace({
 }: Props) {
   const [isFav, setIsFav] = useState(false);
 
+  //#FFC400
   return (
     <div
       className={
@@ -54,7 +57,13 @@ export default function ModalInfoPlace({
             </p>
 
             <div className="mb-3 flex items-center justify-start">
-              <div>*****</div>
+              <div className="flex">
+                <img src={i_starGray} alt="Рейтинг" className="" />
+                <img src={i_starGray} alt="Рейтинг" className="" />
+                <img src={i_starGray} alt="Рейтинг" className="" />
+                <img src={i_starGray} alt="Рейтинг" className="" />
+                <img src={i_starGray} alt="Рейтинг" className="" />
+              </div>
               <p className="ml-2 text-xs font-semibold">4.3</p>
             </div>
 

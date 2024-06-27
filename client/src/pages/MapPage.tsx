@@ -13,7 +13,7 @@ export default function MapPage() {
   const [modalLogout, setModalLogout] = useState(false);
   const [modalFav, setModalFav] = useState(false);
   const [modalSearchMenu, setModalSearchMenu] = useState(false);
-  const [modalInfoPlace, setModalInfoPlace] = useState(true);
+  const [modalInfoPlace, setModalInfoPlace] = useState(false);
   // const [coords, setCoords] = useState([]);
   // const [userLocation, setUserLocation] = useState<number[]>([]);
 
@@ -38,7 +38,10 @@ export default function MapPage() {
         <MapNav setModalLogout={toggleSetModalLogout} />
 
         <div className="map1 flex justify-center items-center h-full w-full absolute top-0 left-0 z-0 bg-slate-400">
-          <MapItem />
+          <MapItem
+            modalInfoPlace={modalInfoPlace}
+            setModalInfoPlace={toggleSetModalInfoPlace}
+          />
         </div>
 
         {/* нижнее меню */}
