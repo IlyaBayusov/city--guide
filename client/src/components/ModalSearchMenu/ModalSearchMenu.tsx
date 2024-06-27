@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import i_search from "@/assets/i_search.png";
 import i_close12 from "@/assets/i_close12.png";
 import i_close24 from "@/assets/i_close24.png";
 import ModalSearchMenuCategories from "../ModalSearchMenuCategories/ModalSearchMenuCategories";
+import { Context } from "../../context";
 
 type Props = {
   modalSearchMenu: boolean;
@@ -14,8 +15,9 @@ export default function ModalSearchMenu({
   setModalSearchMenu,
 }: Props) {
   const [inputSearch, setInputSearch] = useState("");
-  const [inputRadius, setInputRadius] = useState(1000);
   const [isClose, setIsClose] = useState(false);
+
+  const { inputRadius, setInputRadius } = useContext(Context);
 
   const inputChange = (e) => {
     if (e.target.value) {
@@ -27,7 +29,7 @@ export default function ModalSearchMenu({
   };
 
   const inputRadiusChange = (e) => {
-    setInputRadius(e.target.value);
+    setInputRadius(Number(e.target.value));
   };
 
   const buttonClick = () => {
@@ -41,9 +43,7 @@ export default function ModalSearchMenu({
         "w-full h-full absolute top-0 left-0 z-[70] transition-all duration-200 " +
         (modalSearchMenu ? "opacity-100" : "opacity-0 pointer-events-none")
       }
-      onClick={() => {
-        setModalSearchMenu();
-      }}
+      onClick={setModalSearchMenu}
     >
       <div className="relative w-full h-full ">
         <div
@@ -60,9 +60,9 @@ export default function ModalSearchMenu({
           }
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between -mx-3">
+          <div className="flex items-center justify-between">
             <button
-              className="flex justify-center items-center h-10 w-10"
+              className="flex justify-center items-center pr-2"
               onClick={setModalSearchMenu}
             >
               <img className="i_img" src={i_search} alt="Поиск" />
@@ -88,7 +88,7 @@ export default function ModalSearchMenu({
             </div>
 
             <button
-              className="flex justify-center items-center h-10 w-10"
+              className="flex justify-center items-center pl-2"
               onClick={setModalSearchMenu}
             >
               <img src={i_close24} />

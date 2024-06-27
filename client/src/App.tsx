@@ -14,15 +14,15 @@ import { Context, store } from "./context/index";
 import Auth from "./pages/Auth";
 import MapPage from "./pages/MapPage";
 import Registr from "./pages/Registr";
+import { locMinsk, radius } from "./constans/constans";
 
 export default observer(function App() {
   const [isLoader, setIsLoader] = useState(true);
-  const [mapCenter, setMapCenter] = useState({
-    lat: 53.9,
-    lng: 27.56,
-  });
+  const [mapCenter, setMapCenter] = useState(locMinsk);
   const [zoom, setZoom] = useState(9);
   const [arrCategoriesTypes, setArrCategoriesTypes] = useState([]);
+  const [inputRadius, setInputRadius] = useState(radius);
+  const [places, setPlaces] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -61,6 +61,10 @@ export default observer(function App() {
           setZoom,
           arrCategoriesTypes,
           setArrCategoriesTypes,
+          inputRadius,
+          setInputRadius,
+          places,
+          setPlaces,
         }}
       >
         <Routes>

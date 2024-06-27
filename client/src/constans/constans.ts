@@ -15,3 +15,4 @@ export const autoServicesTypes = ["car_repair"];
 export const fitnessTypes = ["gym"];
 
 export const locMinsk = { lat: 53.9, lng: 27.56 };
+export const radius = 1000;

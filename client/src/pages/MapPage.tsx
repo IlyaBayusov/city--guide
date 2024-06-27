@@ -7,15 +7,17 @@ import ModalLogout from "../components/ModalLogout/ModalLogout";
 import SearchMenu from "../components/SearchMenu/SearchMenu";
 import { Context } from "../context";
 import ModalSearchMenu from "../components/ModalSearchMenu/ModalSearchMenu";
+import ModalInfoPlace from "../components/ModalInfoPlace/ModalInfoPlace";
 
 export default function MapPage() {
   const [modalLogout, setModalLogout] = useState(false);
   const [modalFav, setModalFav] = useState(false);
   const [modalSearchMenu, setModalSearchMenu] = useState(false);
-  const [coords, setCoords] = useState([]);
-  const [userLocation, setUserLocation] = useState<number[]>([]);
+  const [modalInfoPlace, setModalInfoPlace] = useState(true);
+  // const [coords, setCoords] = useState([]);
+  // const [userLocation, setUserLocation] = useState<number[]>([]);
 
-  const { store } = useContext(Context);
+  const { store, places, setPlaces } = useContext(Context);
 
   const toggleSetModalFav = () => {
     setModalFav(!modalFav);
@@ -26,6 +28,9 @@ export default function MapPage() {
   const toggleSetModalSearchMenu = () => {
     setModalSearchMenu(!modalSearchMenu);
   };
+  const toggleSetModalInfoPlace = () => {
+    setModalInfoPlace(!modalInfoPlace);
+  };
 
   return (
     <>
@@ -33,7 +38,6 @@ export default function MapPage() {
         <MapNav setModalLogout={toggleSetModalLogout} />
 
         <div className="map1 flex justify-center items-center h-full w-full absolute top-0 left-0 z-0 bg-slate-400">
-          <div id="map"></div>
           <MapItem />
         </div>
 
@@ -41,6 +45,12 @@ export default function MapPage() {
         <SearchMenu
           setModalFav={toggleSetModalFav}
           setModalSearchMenu={toggleSetModalSearchMenu}
+        />
+
+        {/* модальное информация о месте */}
+        <ModalInfoPlace
+          modalInfoPlace={modalInfoPlace}
+          setModalInfoPlace={toggleSetModalInfoPlace}
         />
 
         {/* модальное нижнее меню */}

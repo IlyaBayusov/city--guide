@@ -11,12 +11,18 @@ const mapContainerStyle = {
 
 const MapItem = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [places, setPlaces] = useState([]);
-  const [radius, setRadius] = useState(1000);
   const mapRef = useRef(null);
 
-  const { mapCenter, zoom, arrCategoriesTypes, setArrCategoriesTypes } =
-    useContext(Context);
+  const {
+    inputRadius,
+    setInputRadius,
+    mapCenter,
+    zoom,
+    arrCategoriesTypes,
+    setArrCategoriesTypes,
+    places,
+    setPlaces,
+  } = useContext(Context);
 
   useEffect(() => {
     const loadGoogleMapsAPI = async () => {
@@ -45,19 +51,50 @@ const MapItem = () => {
 
       const request = {
         location: mapCenter,
-        radius: radius,
+        radius: inputRadius,
         type: arrCategoriesTypes,
       };
 
-      service.nearbySearch(request, (results, status, pagination) => {
-        console.log(pagination);
-
+      service.nearbySearch(request, async (results, status, pagination) => {
         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          setPlaces(results);
+          const detailedPlaces = await Promise.all(
+            results.map((place) => getPlaceDetails(service, place.place_id))
+          );
+          setPlaces(detailedPlaces);
         }
       });
     }
   }, [isLoaded, arrCategoriesTypes]);
+
+  const getPlaceDetails = (service, placeId) => {
+    return new Promise((resolve) => {
+      service.getDetails({ placeId }, (place, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          const photoUrl =
+            place.photos && place.photos.length > 0
+              ? place.photos[0].getUrl()
+              : null;
+          resolve({
+            id: place.place_id,
+            name: place.name,
+            rating: place.rating,
+            address: place.formatted_address,
+            photo: photoUrl,
+            position: {
+              lat: place.geometry.location.lat(),
+              lng: place.geometry.location.lng(),
+            },
+          });
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  };
+
+  const showModalInfoPlace = () => {
+    console.log("click");
+  };
 
   const circleOptionsRadius = {
     fillColor: "blue",
@@ -93,28 +130,29 @@ const MapItem = () => {
       options={{ disableDefaultUI: true, clickableIcons: false, styles: [] }}
     >
       <Circle
-        radius={radius}
+        radius={inputRadius}
         center={mapCenter}
         options={circleOptionsRadius}
       />
       <Marker
         position={mapCenter}
         icon={{
-          url: i_userMarkCenter, // Путь к вашей картинке
-          // scaledSize: new window.google.maps.Size(50, 50), // Размер изображения
+          url: i_userMarkCenter,
+          // scaledSize: new window.google.maps.Size(50, 50),
         }}
         options={{ zIndex: 3 }}
       />
 
       {places.map((place) => (
         <Circle
-          key={place.place_id}
-          radius={3}
+          key={place.id}
+          radius={8}
           center={{
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
+            lat: place.position.lat,
+            lng: place.position.lng,
           }}
           options={circleOptionsMark}
+          onClick={showModalInfoPlace}
         />
       ))}
     </GoogleMap>

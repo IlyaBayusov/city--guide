@@ -36,7 +36,7 @@ export default function ModalFavorits({ modalFav, setModalFav }) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-between items-center mb-2">
-            <p className="font-semibold">Избранное</p>
+            <p className="text-sm font-semibold">Избранное</p>
 
             <div className="-mr-1 cursor-pointer" onClick={setModalFav}>
               <img src={i_close24} />
