@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 import Store from "../Store/Store";
 import { locMinsk, radius } from "../constans/constans";
+import { IPlaceInfo } from "../models/IPlaceInfo";
 
 interface State {
   store: Store;
@@ -17,6 +18,8 @@ interface State {
   setInputRadius: React.Dispatch<React.SetStateAction<number>>;
   places: object[];
   setPlaces: React.Dispatch<React.SetStateAction<object[]>>;
+  placeInfo: IPlaceInfo | object;
+  setPlaceInfo: React.Dispatch<React.SetStateAction<object>>;
 }
 
 export const store = new Store();
@@ -33,4 +36,6 @@ export const Context = createContext<State>({
   setInputRadius: () => {},
   places: [],
   setPlaces: () => {},
+  placeInfo: {},
+  setPlaceInfo: () => {},
 });

@@ -15,6 +15,7 @@ import Auth from "./pages/Auth";
 import MapPage from "./pages/MapPage";
 import Registr from "./pages/Registr";
 import { locMinsk, radius } from "./constans/constans";
+import { IPlaceInfo } from "./models/IPlaceInfo";
 
 export default observer(function App() {
   const [isLoader, setIsLoader] = useState(true);
@@ -23,6 +24,7 @@ export default observer(function App() {
   const [arrCategoriesTypes, setArrCategoriesTypes] = useState([]);
   const [inputRadius, setInputRadius] = useState(radius);
   const [places, setPlaces] = useState([]);
+  const [placeInfo, setPlaceInfo] = useState<IPlaceInfo | object>({});
 
   useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -65,6 +67,8 @@ export default observer(function App() {
           setInputRadius,
           places,
           setPlaces,
+          placeInfo,
+          setPlaceInfo,
         }}
       >
         <Routes>

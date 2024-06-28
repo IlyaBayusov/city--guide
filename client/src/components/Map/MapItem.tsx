@@ -24,6 +24,8 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
     setArrCategoriesTypes,
     places,
     setPlaces,
+    placeInfo,
+    setPlaceInfo,
   } = useContext(Context);
 
   useEffect(() => {
@@ -59,6 +61,8 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
 
       service.nearbySearch(request, async (results, status, pagination) => {
         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          console.log("result, ", results);
+
           const detailedPlaces = await Promise.all(
             results.map((place) => getPlaceDetails(service, place.place_id))
           );
@@ -86,6 +90,11 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
               lat: place.geometry.location.lat(),
               lng: place.geometry.location.lng(),
             },
+            types: place.types,
+            userRatingTotal: place.user_ratings_total,
+            openingHours: place.opening_hours || null,
+            isOpen: place.opening_hours ? place.opening_hours.isOpen() : null,
+            icon: place.icon,
           });
         } else {
           resolve(null);
@@ -94,8 +103,9 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
     });
   };
 
-  const showModalInfoPlace = () => {
-    console.log("click");
+  const showModalInfoPlace = (place) => {
+    setPlaceInfo(place);
+    setModalInfoPlace();
   };
 
   const circleOptionsRadius = {
@@ -154,7 +164,9 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
             lng: place.position.lng,
           }}
           options={circleOptionsMark}
-          onClick={setModalInfoPlace}
+          onClick={() => {
+            showModalInfoPlace(place);
+          }}
         />
       ))}
     </GoogleMap>

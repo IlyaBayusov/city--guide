@@ -8,16 +8,18 @@ import SearchMenu from "../components/SearchMenu/SearchMenu";
 import { Context } from "../context";
 import ModalSearchMenu from "../components/ModalSearchMenu/ModalSearchMenu";
 import ModalInfoPlace from "../components/ModalInfoPlace/ModalInfoPlace";
+import ModalOpeningHours from "../components/ModalOpeningHours/ModalOpeningHours";
 
 export default function MapPage() {
   const [modalLogout, setModalLogout] = useState(false);
   const [modalFav, setModalFav] = useState(false);
   const [modalSearchMenu, setModalSearchMenu] = useState(false);
   const [modalInfoPlace, setModalInfoPlace] = useState(false);
+  const [modalOpeningHours, setModalOpeningHours] = useState(false);
   // const [coords, setCoords] = useState([]);
   // const [userLocation, setUserLocation] = useState<number[]>([]);
 
-  const { store, places, setPlaces } = useContext(Context);
+  const { store } = useContext(Context);
 
   const toggleSetModalFav = () => {
     setModalFav(!modalFav);
@@ -30,6 +32,9 @@ export default function MapPage() {
   };
   const toggleSetModalInfoPlace = () => {
     setModalInfoPlace(!modalInfoPlace);
+  };
+  const toggleSetModalOpeningHours = () => {
+    setModalOpeningHours(!modalOpeningHours);
   };
 
   return (
@@ -54,6 +59,13 @@ export default function MapPage() {
         <ModalInfoPlace
           modalInfoPlace={modalInfoPlace}
           setModalInfoPlace={toggleSetModalInfoPlace}
+          modalOpeningHours={modalOpeningHours}
+          setModalOpeningHours={setModalOpeningHours}
+        />
+        {/* модальное график работы */}
+        <ModalOpeningHours
+          modalOpeningHours={modalOpeningHours}
+          setModalOpeningHours={setModalOpeningHours}
         />
 
         {/* модальное нижнее меню */}

@@ -1,17 +1,46 @@
 import i_close24 from "@/assets/i_close24.png";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import i_fav from "@/assets/i_fav.png";
 import i_favout from "@/assets/i_favout.png";
 import i_starGray from "@/assets/i_starGray.png";
 import i_starYellow from "@/assets/i_starYellow.png";
+import { Context } from "../../context";
+import { IPlaceInfo } from "../../models/IPlaceInfo";
 
-type Props = { modalInfoPlace: boolean; setModalInfoPlace: () => boolean };
+type Props = {
+  modalInfoPlace: boolean;
+  setModalInfoPlace: () => boolean;
+  modalOpeningHours: boolean;
+  setModalOpeningHours: () => boolean;
+};
 
 export default function ModalInfoPlace({
   modalInfoPlace,
   setModalInfoPlace,
+  modalOpeningHours,
+  setModalOpeningHours,
 }: Props) {
   const [isFav, setIsFav] = useState(false);
+  const [date, setDate] = useState({});
+
+  const { placeInfo } = useContext(Context) as { placeInfo: IPlaceInfo };
+
+  useEffect(() => {
+    setDate(getCurrentDayAndTime());
+  }, [modalOpeningHours]);
+
+  function getCurrentDayAndTime() {
+    const date = new Date();
+    const day = date.getDay();
+    const hours = date.getHours();
+    const minuts = date.getMinutes();
+
+    return { day, hours, minuts };
+  }
+
+  const showModalOpeningHours = () => {
+    setModalOpeningHours(!modalOpeningHours);
+  };
 
   //#FFC400
   return (
@@ -39,7 +68,7 @@ export default function ModalInfoPlace({
         >
           <div className="mb-3 flex items-start justify-between -mr-1">
             <p className="max-w-72 text-left text-sm font-semibold">
-              Название магазина
+              {placeInfo.name}
             </p>
 
             <button
@@ -52,8 +81,7 @@ export default function ModalInfoPlace({
 
           <div className="">
             <p className="max-w-80 text-xs font-medium mb-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-              eveniet laudantium illo ullam, nisi maxime dolor rerum animi
+              {placeInfo.address}
             </p>
 
             <div className="mb-3 flex items-center justify-start">
@@ -64,12 +92,15 @@ export default function ModalInfoPlace({
                 <img src={i_starGray} alt="Рейтинг" className="" />
                 <img src={i_starGray} alt="Рейтинг" className="" />
               </div>
-              <p className="ml-2 text-xs font-semibold">4.3</p>
+              <p className="ml-2 text-xs font-semibold">{placeInfo.rating}</p>
             </div>
 
             <div className="mb-3 flex items-center justify-between">
-              <button className="text-xs font-semibold">
-                Открыто до 21:00
+              <button
+                className="text-xs font-semibold"
+                onClick={showModalOpeningHours}
+              >
+                график
               </button>
 
               <div className="text-xs font-semibold flex items-center gap-2">
