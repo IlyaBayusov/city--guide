@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import i_close24 from "@/assets/i_close24.png";
+import { Context } from "../../context";
+import { IPlaceInfo } from "../../models/IPlaceInfo";
+import { verifyPasswordResetCode } from "firebase/auth";
 
 type Props = {
   modalOpeningHours: boolean;
@@ -10,6 +13,8 @@ export default function ModalOpeningHours({
   modalOpeningHours,
   setModalOpeningHours,
 }: Props) {
+  const { placeInfo } = useContext(Context) as { placeInfo: IPlaceInfo };
+
   return (
     <div
       className={
@@ -34,9 +39,9 @@ export default function ModalOpeningHours({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="mb-3 flex items-start justify-between -mr-1">
-            {/* <p className="max-w-72 text-left text-sm font-semibold">
-              {placeInfo.name}
-            </p> */}
+            <p className="max-w-72 text-left text-sm font-semibold">
+              График работы
+            </p>
 
             <button
               className="flex justify-center items-center"

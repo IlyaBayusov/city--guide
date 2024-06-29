@@ -85,6 +85,7 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
             name: place.name,
             rating: place.rating,
             address: place.formatted_address,
+            businessStatus: place.business_status,
             photo: photoUrl,
             position: {
               lat: place.geometry.location.lat(),

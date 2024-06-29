@@ -16,6 +16,7 @@ export default function MapPage() {
   const [modalSearchMenu, setModalSearchMenu] = useState(false);
   const [modalInfoPlace, setModalInfoPlace] = useState(false);
   const [modalOpeningHours, setModalOpeningHours] = useState(false);
+
   // const [coords, setCoords] = useState([]);
   // const [userLocation, setUserLocation] = useState<number[]>([]);
 
@@ -60,12 +61,12 @@ export default function MapPage() {
           modalInfoPlace={modalInfoPlace}
           setModalInfoPlace={toggleSetModalInfoPlace}
           modalOpeningHours={modalOpeningHours}
-          setModalOpeningHours={setModalOpeningHours}
+          setModalOpeningHours={toggleSetModalOpeningHours}
         />
         {/* модальное график работы */}
         <ModalOpeningHours
           modalOpeningHours={modalOpeningHours}
-          setModalOpeningHours={setModalOpeningHours}
+          setModalOpeningHours={toggleSetModalOpeningHours}
         />
 
         {/* модальное нижнее меню */}
