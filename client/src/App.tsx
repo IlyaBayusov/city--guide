@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { observer } from "mobx-react-lite";
-import { createContext, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -20,11 +20,14 @@ import { IPlaceInfo } from "./models/IPlaceInfo";
 export default observer(function App() {
   const [isLoader, setIsLoader] = useState(true);
   const [mapCenter, setMapCenter] = useState(locMinsk);
+  const [userCenter, setUserCenter] = useState({});
   const [zoom, setZoom] = useState(9);
   const [arrCategoriesTypes, setArrCategoriesTypes] = useState([]);
   const [inputRadius, setInputRadius] = useState(radius);
   const [places, setPlaces] = useState([]);
   const [placeInfo, setPlaceInfo] = useState<IPlaceInfo | object>({});
+
+  const [modalSearchMenu, setModalSearchMenu] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -69,6 +72,10 @@ export default observer(function App() {
           setPlaces,
           placeInfo,
           setPlaceInfo,
+          userCenter,
+          setUserCenter,
+          modalSearchMenu,
+          setModalSearchMenu,
         }}
       >
         <Routes>

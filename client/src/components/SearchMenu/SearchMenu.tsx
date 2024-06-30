@@ -1,20 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import i_close12 from "@/assets/i_close12.png";
 import i_favout from "@/assets/i_favout.png";
 import i_search from "@/assets/i_search.png";
+import { Context } from "../../context";
 
 interface SearchMenu {
   setModalFav: () => void;
-  setModalSearchMenu: () => void;
 }
 
-const SearchMenu: React.FC<SearchMenu> = ({
-  setModalFav,
-  setModalSearchMenu,
-}) => {
+const SearchMenu: React.FC<SearchMenu> = ({ setModalFav }) => {
+  const { modalSearchMenu, setModalSearchMenu } = useContext(Context);
+
   const handleClick = () => {
-    setModalSearchMenu();
+    setModalSearchMenu(!modalSearchMenu);
   };
 
   return (

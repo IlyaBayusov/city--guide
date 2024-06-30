@@ -1,11 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 
 import MapItem from "../components/Map/MapItem";
 import MapNav from "../components/MapNav/MapNav";
 import ModalFavorits from "../components/ModalFavorits/ModalFavorits";
 import ModalLogout from "../components/ModalLogout/ModalLogout";
 import SearchMenu from "../components/SearchMenu/SearchMenu";
-import { Context } from "../context";
 import ModalSearchMenu from "../components/ModalSearchMenu/ModalSearchMenu";
 import ModalInfoPlace from "../components/ModalInfoPlace/ModalInfoPlace";
 import ModalOpeningHours from "../components/ModalOpeningHours/ModalOpeningHours";
@@ -16,11 +15,6 @@ export default function MapPage() {
   const [modalSearchMenu, setModalSearchMenu] = useState(false);
   const [modalInfoPlace, setModalInfoPlace] = useState(false);
   const [modalOpeningHours, setModalOpeningHours] = useState(false);
-
-  // const [coords, setCoords] = useState([]);
-  // const [userLocation, setUserLocation] = useState<number[]>([]);
-
-  const { store } = useContext(Context);
 
   const toggleSetModalFav = () => {
     setModalFav(!modalFav);
@@ -51,10 +45,7 @@ export default function MapPage() {
         </div>
 
         {/* нижнее меню */}
-        <SearchMenu
-          setModalFav={toggleSetModalFav}
-          setModalSearchMenu={toggleSetModalSearchMenu}
-        />
+        <SearchMenu setModalFav={toggleSetModalFav} />
 
         {/* модальное информация о месте */}
         <ModalInfoPlace
@@ -70,10 +61,7 @@ export default function MapPage() {
         />
 
         {/* модальное нижнее меню */}
-        <ModalSearchMenu
-          modalSearchMenu={modalSearchMenu}
-          setModalSearchMenu={toggleSetModalSearchMenu}
-        />
+        <ModalSearchMenu />
 
         {/* модальное окно избранных */}
         <ModalFavorits modalFav={modalFav} setModalFav={toggleSetModalFav} />

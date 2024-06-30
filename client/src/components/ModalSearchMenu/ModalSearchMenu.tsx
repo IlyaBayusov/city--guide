@@ -1,40 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import i_search from "@/assets/i_search.png";
-import i_close12 from "@/assets/i_close12.png";
 import i_close24 from "@/assets/i_close24.png";
 import ModalSearchMenuCategories from "../ModalSearchMenuCategories/ModalSearchMenuCategories";
 import { Context } from "../../context";
+import InputSearchMenu from "../InputSearchMenu/InputSearchMenu";
 
-type Props = {
-  modalSearchMenu: boolean;
-  setModalSearchMenu: () => void;
-};
+type Props = {};
 
-export default function ModalSearchMenu({
-  modalSearchMenu,
-  setModalSearchMenu,
-}: Props) {
-  const [inputSearch, setInputSearch] = useState("");
-  const [isClose, setIsClose] = useState(false);
-
-  const { inputRadius, setInputRadius } = useContext(Context);
-
-  const inputChange = (e) => {
-    if (e.target.value) {
-      setIsClose(true);
-    } else {
-      setIsClose(false);
-    }
-    setInputSearch(e.target.value);
-  };
+export default function ModalSearchMenu({}: Props) {
+  const { inputRadius, setInputRadius, modalSearchMenu, setModalSearchMenu } =
+    useContext(Context);
 
   const inputRadiusChange = (e) => {
     setInputRadius(Number(e.target.value));
   };
 
-  const buttonClick = () => {
-    setIsClose(false);
-    setInputSearch("");
+  const toggleSetModalSearchMenu = () => {
+    setModalSearchMenu(!modalSearchMenu);
   };
 
   return (
@@ -43,7 +25,7 @@ export default function ModalSearchMenu({
         "w-full h-full absolute top-0 left-0 z-[70] transition-all duration-200 " +
         (modalSearchMenu ? "opacity-100" : "opacity-0 pointer-events-none")
       }
-      onClick={setModalSearchMenu}
+      onClick={toggleSetModalSearchMenu}
     >
       <div className="relative w-full h-full ">
         <div
@@ -63,33 +45,16 @@ export default function ModalSearchMenu({
           <div className="flex items-center justify-between">
             <button
               className="flex justify-center items-center pr-2"
-              onClick={setModalSearchMenu}
+              onClick={toggleSetModalSearchMenu}
             >
               <img className="i_img" src={i_search} alt="Поиск" />
             </button>
 
-            <div className="relative flex-grow">
-              <input
-                type="text"
-                placeholder="Поиск"
-                className="w-full rounded-lg py-2 px-4 text-sm border border-gray-300 bg-gray-100 text-black font-medium caret-blue-500"
-                onChange={(e) => inputChange(e)}
-                value={inputSearch}
-              />
-              <button
-                className={
-                  "absolute mr-2 p-1 top-1/2 right-0 -translate-y-1/2 z-20 bg-gray-600 rounded-md transition duration-75 cursor-pointer " +
-                  (isClose ? "opacity-100" : "opacity-0")
-                }
-                onClick={buttonClick}
-              >
-                <img src={i_close12} />
-              </button>
-            </div>
+            <InputSearchMenu />
 
             <button
               className="flex justify-center items-center pl-2"
-              onClick={setModalSearchMenu}
+              onClick={toggleSetModalSearchMenu}
             >
               <img src={i_close24} />
             </button>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import i_center from "@/assets/i_center.png";
 import i_logout from "@/assets/i_logout.png";
@@ -11,16 +11,21 @@ interface MapNav {
 }
 
 const MapNav: React.FC<MapNav> = ({ setModalLogout }) => {
-  const { mapCenter, setMapCenter, zoom, setZoom } = useContext(Context);
+  const { setUserCenter, setMapCenter, zoom, setZoom } = useContext(Context);
+
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
 
   const zoomPlus = () => setZoom(zoom + 1);
   const zoomMinus = () => setZoom(zoom - 1);
 
-  const getCurrentLocation = () => {
+  function getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+          setUserCenter({ lat: latitude, lng: longitude });
           setMapCenter({ lat: latitude, lng: longitude });
           setZoom(15);
         },
@@ -31,7 +36,7 @@ const MapNav: React.FC<MapNav> = ({ setModalLogout }) => {
     } else {
       console.error("Геолокация не поддерживается вашим браузером");
     }
-  };
+  }
 
   return (
     <div className="h-full p-2 relative pointer-events-none">

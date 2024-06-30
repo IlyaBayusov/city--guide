@@ -20,6 +20,12 @@ interface State {
   setPlaces: React.Dispatch<React.SetStateAction<object[]>>;
   placeInfo: IPlaceInfo | object;
   setPlaceInfo: React.Dispatch<React.SetStateAction<object>>;
+  userCenter: { lat: number; lng: number };
+  setUserCenter: React.Dispatch<
+    React.SetStateAction<{ lat: number; lng: number }>
+  >;
+  modalSearchMenu: boolean;
+  setModalSearchMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const store = new Store();
@@ -38,4 +44,8 @@ export const Context = createContext<State>({
   setPlaces: () => {},
   placeInfo: {},
   setPlaceInfo: () => {},
+  userCenter: {},
+  setUserCenter: () => {},
+  modalSearchMenu: false,
+  setModalSearchMenu: () => {},
 });

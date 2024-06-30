@@ -26,17 +26,19 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
     setPlaces,
     placeInfo,
     setPlaceInfo,
+    userCenter,
   } = useContext(Context);
 
   useEffect(() => {
     const loadGoogleMapsAPI = async () => {
       if (!window.google) {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDwvdUv3uftChhHm4JfYaufOt1rZcAkhtY&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${
+          import.meta.env.VITE_FIREBASE_GOOGLEMAPS_API_KEY
+        }&libraries=places`;
         script.async = true;
         script.defer = true;
         script.onload = () => setIsLoaded(true);
-
         document.head.appendChild(script);
       } else {
         setIsLoaded(true);
@@ -50,8 +52,6 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
     if (isLoaded && mapRef.current) {
       const map = mapRef.current;
       const service = new window.google.maps.places.PlacesService(map);
-
-      console.log("запрос ушел");
 
       const request = {
         location: mapCenter,
@@ -144,14 +144,13 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
     >
       <Circle
         radius={inputRadius}
-        center={mapCenter}
+        center={userCenter}
         options={circleOptionsRadius}
       />
       <Marker
-        position={mapCenter}
+        position={userCenter}
         icon={{
           url: i_userMarkCenter,
-          // scaledSize: new window.google.maps.Size(50, 50),
         }}
         options={{ zIndex: 3 }}
       />
