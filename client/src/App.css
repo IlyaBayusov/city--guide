@@ -72,3 +72,23 @@ button {
     transform: rotate(360deg);
   }
 }
+
+.no-scrollbar {
+  scrollbar-width: none; /* Для Firefox */
+  -ms-overflow-style: none; /* Для IE и Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Для Chrome, Safari и Opera */
+}
+
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Убираем стрелки в Firefox */
+.no-arrows {
+  -moz-appearance: textfield;
+}

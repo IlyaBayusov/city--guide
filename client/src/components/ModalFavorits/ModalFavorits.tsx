@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import i_close24 from "@/assets/i_close24.png";
 
-import ModalFavorits_item from "../ModalFavoritsItem/ModalFavoritsItem";
+import ModalFavoritsItem from "../ModalFavoritsItem/ModalFavoritsItem";
+import { fetchFavoritePlaces } from "../../firebase";
+import { IPlaceInfo } from "../../models/IPlaceInfo";
 
-export default function ModalFavorits({ modalFav, setModalFav }) {
-  const [modalFavItem, setModalFavItem] = useState({
-    img: "img",
-    text: "Text 1",
-    route: "",
-    icons: [],
-  });
+type Props = {
+  modalFav: boolean;
+  setModalFav: () => {};
+};
+
+export default function ModalFavorits({ modalFav, setModalFav }: Props) {
+  const [placesFav, setPlacesFav] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const placesData: IPlaceInfo[] = await fetchFavoritePlaces();
+      setPlacesFav(placesData);
+    };
+
+    getData();
+  }, [modalFav]);
 
   return (
     <div
@@ -18,9 +29,7 @@ export default function ModalFavorits({ modalFav, setModalFav }) {
         "w-full h-full absolute top-0 left-0 z-[60] transition-all duration-200 " +
         (modalFav ? "opacity-100" : "opacity-0 pointer-events-none")
       }
-      onClick={() => {
-        setModalFav();
-      }}
+      onClick={setModalFav}
     >
       <div className="relative w-full h-full ">
         <div
@@ -38,21 +47,16 @@ export default function ModalFavorits({ modalFav, setModalFav }) {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-between items-center mb-2">
-            <p className="font-semibold">Избранное</p>
+            <p className="text-sm font-semibold">Избранное</p>
 
-            <div
-              className="-mr-1 cursor-pointer"
-              onClick={() => {
-                setModalFav();
-              }}
-            >
+            <div className="-mr-1 cursor-pointer" onClick={setModalFav}>
               <img src={i_close24} />
             </div>
-          </div>{" "}
-          {/*Исправить нажатие кнопки "Добавить в Избранное"*/}
+          </div>
           <div className="flex flex-col items-center overflow-scroll">
-            <ModalFavorits_item />
-            <ModalFavorits_item />
+            {placesFav.map((place) => (
+              <ModalFavoritsItem place={place} />
+            ))}
           </div>
         </div>
       </div>

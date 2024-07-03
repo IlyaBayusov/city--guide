@@ -3,9 +3,17 @@ import { useState } from "react";
 import i_fav from "@/assets/i_fav.png";
 import i_favout from "@/assets/i_favout.png";
 import img_fav1 from "@/assets/img_fav1.png";
+import { IPlaceInfo } from "../../models/IPlaceInfo";
 
-export default function ModalFavoritsItem() {
-  const [isFav, setIsFav] = useState(false);
+import i_starGray from "@/assets/i_starGray.png";
+
+type Props = {
+  place: IPlaceInfo;
+};
+
+export default function ModalFavoritsItem({ place }: Props) {
+  const [isFav, setIsFav] = useState(true);
+  console.log("items", place);
 
   return (
     <div className="item w-full mb-3 px-3 py-3 border-2 border-gray-300 rounded-xl">
@@ -14,12 +22,26 @@ export default function ModalFavoritsItem() {
       </div>
 
       <div className="flex flex-col">
-        <p className="text-xs font-medium mb-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
-          ratione mollitia omnis exercitationem consectetur voluptatibus
-          obcaecati nesciunt! Error molestias voluptatibus eius. Culpa
-          necessitatibus earum officiis saepe natus corporis ut non!
+        <p className="mb-3 max-w-72 text-left text-sm font-semibold">
+          {place.name}
         </p>
+
+        <div className="">
+          <p className="max-w-80 text-xs font-medium mb-3">
+            {place.formatted_address}
+          </p>
+
+          <div className="mb-3 flex items-center justify-start">
+            <div className="flex">
+              <img src={i_starGray} alt="Рейтинг" className="" />
+              <img src={i_starGray} alt="Рейтинг" className="" />
+              <img src={i_starGray} alt="Рейтинг" className="" />
+              <img src={i_starGray} alt="Рейтинг" className="" />
+              <img src={i_starGray} alt="Рейтинг" className="" />
+            </div>
+            <p className="ml-2 text-xs font-semibold">{place.rating}</p>
+          </div>
+        </div>
 
         <div className="flex justify-between items-center">
           <button
@@ -45,9 +67,17 @@ export default function ModalFavoritsItem() {
               alt="Избранное"
             />
           </button>
-          <button className="px-3 py-2 text-sm text-white font-medium bg-blue-600 rounded-md">
-            Маршрут
-          </button>
+
+          <div className="flex items-center gap-3">
+            <div className="text-xs font-semibold flex items-center gap-2">
+              <img src="" alt="" />
+              <p>1 мин - 24 м</p>
+            </div>
+
+            <button className="px-3 py-2 text-sm text-white font-medium bg-blue-600 rounded-md">
+              Маршрут
+            </button>
+          </div>
         </div>
       </div>
     </div>

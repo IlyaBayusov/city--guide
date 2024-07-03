@@ -10,18 +10,25 @@ import {
 } from "react-router-dom";
 
 import Loader from "./components/Loader/Loader";
-import { Context, store } from "./context";
+import { Context, store } from "./context/index";
 import Auth from "./pages/Auth";
 import MapPage from "./pages/MapPage";
 import Registr from "./pages/Registr";
+import { locMinsk, radius } from "./constans/constans";
+import { IPlaceInfo } from "./models/IPlaceInfo";
 
 export default observer(function App() {
   const [isLoader, setIsLoader] = useState(true);
-  const [mapCenter, setMapCenter] = useState({
-    lat: 53.9,
-    lng: 27.56,
-  });
+  const [isLoadedMap, setIsLoadedMap] = useState(false);
+  const [mapCenter, setMapCenter] = useState(locMinsk);
+  const [userCenter, setUserCenter] = useState({});
   const [zoom, setZoom] = useState(9);
+  const [arrCategoriesTypes, setArrCategoriesTypes] = useState([]);
+  const [inputRadius, setInputRadius] = useState(radius);
+  const [places, setPlaces] = useState([]);
+  const [placeInfo, setPlaceInfo] = useState<IPlaceInfo | object>({});
+
+  const [modalSearchMenu, setModalSearchMenu] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("auth")) {
@@ -32,9 +39,13 @@ export default observer(function App() {
   }, [store.isAuth]);
 
   useEffect(() => {
-    // store.setIsLoading(false);
     setIsLoader(false);
   }, []);
+
+  const main = "/";
+  const reg = "/reg";
+  const login = "/login";
+  const forgotPass = "/forgotPass";
 
   if (isLoader)
     return (
@@ -48,20 +59,40 @@ export default observer(function App() {
   return (
     <Router>
       <Context.Provider
-        value={{ store, mapCenter, setMapCenter, zoom, setZoom }}
+        value={{
+          store,
+          mapCenter,
+          setMapCenter,
+          zoom,
+          setZoom,
+          arrCategoriesTypes,
+          setArrCategoriesTypes,
+          inputRadius,
+          setInputRadius,
+          places,
+          setPlaces,
+          placeInfo,
+          setPlaceInfo,
+          userCenter,
+          setUserCenter,
+          modalSearchMenu,
+          setModalSearchMenu,
+          isLoadedMap,
+          setIsLoadedMap,
+        }}
       >
         <Routes>
           {store.isAuth ? (
             <>
-              <Route path="/" element={<MapPage />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path={main} element={<MapPage />} />
+              <Route path="*" element={<Navigate to={main} replace />} />
             </>
           ) : (
             <>
-              <Route path="/login" element={<Auth />} />
-              <Route path="/reg" element={<Registr />} />
-              <Route path="/forgotPass" element={<Auth />} />
-              <Route path="*" element={<Navigate to="/login" replace />} />
+              <Route path={login} element={<Auth />} />
+              <Route path={reg} element={<Registr />} />
+              <Route path={forgotPass} element={<Auth />} />
+              <Route path="*" element={<Navigate to={login} replace />} />
             </>
           )}
         </Routes>

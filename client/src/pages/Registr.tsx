@@ -2,8 +2,9 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { useInput } from "../hooks/useInput";
 import { Context } from "../context";
-import { useInput } from "../hooks/Validations";
+import AuthInput from "../components/AuthInput/AuthInput";
 
 export default function Registr() {
   const email = useInput("", { empty: true, minLength: 4 });
@@ -33,17 +34,10 @@ export default function Registr() {
 
             <div className="flex flex-col items-center">
               <div className="mb-2 ">
-                <input
-                  className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
+                <AuthInput
+                  inputName={email}
+                  placeholder="Введите email"
                   type="text"
-                  placeholder="Введите Email"
-                  value={email.value}
-                  onChange={(e) => {
-                    email.onChange(e);
-                  }}
-                  onBlur={(e) => {
-                    email.onBlur(e);
-                  }}
                 />
                 {email.dirty && email.empty ? (
                   <p className="text-red-500 font-medium text-xs">
@@ -62,17 +56,10 @@ export default function Registr() {
               </div>
 
               <div className="mb-2 ">
-                <input
-                  className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
-                  type="password"
+                <AuthInput
+                  inputName={password}
                   placeholder="Введите пароль"
-                  value={password.value}
-                  onChange={(e) => {
-                    password.onChange(e);
-                  }}
-                  onBlur={(e) => {
-                    password.onBlur(e);
-                  }}
+                  type="password"
                 />
                 {password.dirty && password.empty ? (
                   <p className="text-red-500 font-medium text-xs">
@@ -91,17 +78,10 @@ export default function Registr() {
               </div>
 
               <div className="mb-3 md:mb-5">
-                <input
-                  className="md:min-w-60 px-4 py-2 text-sm font-medium text-v-black border-2 border-gray-300 rounded-lg"
-                  type="password"
+                <AuthInput
+                  inputName={passwordSecond}
                   placeholder="Повторите пароль"
-                  value={passwordSecond.value}
-                  onChange={(e) => {
-                    passwordSecond.onChange(e);
-                  }}
-                  onBlur={(e) => {
-                    passwordSecond.onBlur(e);
-                  }}
+                  type="password"
                 />
                 {passwordSecond.dirty && passwordSecond.empty ? (
                   <p className="text-red-500 font-medium text-xs">
