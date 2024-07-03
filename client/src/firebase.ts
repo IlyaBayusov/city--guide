@@ -9,6 +9,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { IPlaceInfo } from "./models/IPlaceInfo";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -22,24 +23,53 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export const addFavoritePlace = async (place) => {
+export const addFavoritePlace = async (place: IPlaceInfo) => {
+  console.log("testttt", {
+    place_id: place.place_id,
+    name: place.name,
+    rating: place.rating !== undefined ? place.rating : "Не оценено",
+    formatted_address: place.formatted_address,
+    photo: place.photo || "",
+    position: place.position,
+    types: place.types,
+    user_ratings_total:
+      place.user_ratings_total !== undefined ? place.user_ratings_total : 0,
+    business_status:
+      place.business_status !== undefined
+        ? place.business_status
+        : "Не известно",
+    opening_hours: place.opening_hours
+      ? {
+          periods: place.opening_hours.periods,
+          weekday_text: place.opening_hours.weekday_text,
+        }
+      : "",
+    icon: place.icon ? place.icon : "",
+  });
+
   try {
-    const addPlace = await addDoc(collection(db, "favoritePlaces"), {
-      id: place.id,
+    await addDoc(collection(db, "favoritePlaces"), {
+      place_id: place.place_id,
       name: place.name,
       rating: place.rating !== undefined ? place.rating : "Не оценено",
-      address: place.address,
+      formatted_address: place.formatted_address,
       photo: place.photo || "",
       position: place.position,
       types: place.types,
-      userRatingTotal:
-        place.userRatingTotal !== undefined ? place.userRatingTotal : 0,
-      businessStatus:
-        place.businessStatus !== undefined
-          ? place.businessStatus
+      user_ratings_total:
+        place.user_ratings_total !== undefined ? place.user_ratings_total : 0,
+      business_status:
+        place.business_status !== undefined
+          ? place.business_status
           : "Не известно",
+      opening_hours: place.opening_hours
+        ? {
+            periods: place.opening_hours.periods,
+            weekday_text: place.opening_hours.weekday_text,
+          }
+        : "",
+      icon: place.icon ? place.icon : "",
     });
-    console.log(addPlace);
 
     console.log("Успешно добавлено в израбнное");
     return true;
@@ -52,7 +82,25 @@ export const addFavoritePlace = async (place) => {
 export const fetchFavoritePlaces = async () => {
   const querySnapshot = await getDocs(collection(db, "favoritePlaces"));
   const places = querySnapshot.docs.map((doc) => doc.data());
-  console.log(places);
+
+  console.log("places", places);
+
+  const placeRes = places.map((place) => ({
+    place_id: place.place_id,
+    name: place.name,
+    rating: place.rating,
+    formatted_address: place.formatted_address,
+    business_status: place.business_status,
+    photo: place.photos,
+    position: place.position,
+    types: place.types,
+    user_ratings_total: place.user_ratings_total,
+    opening_hours: place.opening_hours || null,
+    icon: place.icon,
+  }));
+  console.log(placeRes);
+
+  return placeRes;
 };
 
 export const deleteFavoritePlace = async (placeId) => {

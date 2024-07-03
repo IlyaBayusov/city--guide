@@ -26,6 +26,8 @@ interface State {
   >;
   modalSearchMenu: boolean;
   setModalSearchMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoadedMap: boolean;
+  setIsLoadedMap: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const store = new Store();
@@ -48,4 +50,6 @@ export const Context = createContext<State>({
   setUserCenter: () => {},
   modalSearchMenu: false,
   setModalSearchMenu: () => {},
+  isLoadedMap: false,
+  setIsLoadedMap: () => {},
 });

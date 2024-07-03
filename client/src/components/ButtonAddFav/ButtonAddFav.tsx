@@ -2,16 +2,21 @@ import i_favout from "@/assets/i_favout.png";
 import i_fav from "@/assets/i_fav.png";
 import { addFavoritePlace, deleteFavoritePlace } from "../../firebase";
 import { useState } from "react";
+import { IPlaceInfo } from "../../models/IPlaceInfo";
 
-type Props = { place: object };
+type Props = {
+  place: IPlaceInfo;
+};
 
 export default function ButtonAddFav({ place }: Props) {
   const [isFav, setIsFav] = useState(false);
 
   const btnClick = async () => {
     if (isFav) {
-      await deleteFavoritePlace(place.id);
+      await deleteFavoritePlace(place.place_id);
     } else {
+      console.log("btnclick", place);
+
       await addFavoritePlace(place);
     }
     setIsFav(!isFav);

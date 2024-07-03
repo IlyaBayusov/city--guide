@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import i_close24 from "@/assets/i_close24.png";
 
-import ModalFavorits_item from "../ModalFavoritsItem/ModalFavoritsItem";
+import ModalFavoritsItem from "../ModalFavoritsItem/ModalFavoritsItem";
+import { fetchFavoritePlaces } from "../../firebase";
+import { IPlaceInfo } from "../../models/IPlaceInfo";
 
-export default function ModalFavorits({ modalFav, setModalFav }) {
-  const [modalFavItem, setModalFavItem] = useState({
-    img: "img",
-    text: "Text 1",
-    route: "",
-    icons: [],
-  });
+type Props = {
+  modalFav: boolean;
+  setModalFav: () => {};
+};
+
+export default function ModalFavorits({ modalFav, setModalFav }: Props) {
+  const [placesFav, setPlacesFav] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const placesData: IPlaceInfo[] = await fetchFavoritePlaces();
+      setPlacesFav(placesData);
+    };
+
+    getData();
+  }, [modalFav]);
 
   return (
     <div
@@ -41,11 +52,11 @@ export default function ModalFavorits({ modalFav, setModalFav }) {
             <div className="-mr-1 cursor-pointer" onClick={setModalFav}>
               <img src={i_close24} />
             </div>
-          </div>{" "}
-          {/*Исправить нажатие кнопки "Добавить в Избранное"*/}
+          </div>
           <div className="flex flex-col items-center overflow-scroll">
-            <ModalFavorits_item />
-            <ModalFavorits_item />
+            {placesFav.map((place) => (
+              <ModalFavoritsItem place={place} />
+            ))}
           </div>
         </div>
       </div>

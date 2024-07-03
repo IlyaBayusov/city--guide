@@ -3,6 +3,7 @@ import { Circle, GoogleMap, Marker } from "@react-google-maps/api";
 import { Context } from "../../context";
 import i_userMarkCenter from "@/assets/i_userMarkCenter.png";
 import Loader from "../Loader/Loader";
+import { IPlaceInfo } from "../../models/IPlaceInfo";
 
 const mapContainerStyle = {
   width: "100vw",
@@ -12,7 +13,6 @@ const mapContainerStyle = {
 type Props = { modalInfoPlace: boolean; setModalInfoPlace: () => boolean };
 
 const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
-  const [isLoaded, setIsLoaded] = useState(false);
   const mapRef = useRef(null);
 
   const {
@@ -27,6 +27,8 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
     placeInfo,
     setPlaceInfo,
     userCenter,
+    isLoadedMap,
+    setIsLoadedMap,
   } = useContext(Context);
 
   useEffect(() => {
@@ -38,10 +40,10 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
         }&libraries=places`;
         script.async = true;
         script.defer = true;
-        script.onload = () => setIsLoaded(true);
+        script.onload = () => setIsLoadedMap(true);
         document.head.appendChild(script);
       } else {
-        setIsLoaded(true);
+        setIsLoadedMap(true);
       }
     };
 
@@ -49,7 +51,7 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (isLoaded && mapRef.current) {
+    if (isLoadedMap && mapRef.current) {
       const map = mapRef.current;
       const service = new window.google.maps.places.PlacesService(map);
 
@@ -70,30 +72,30 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
         }
       });
     }
-  }, [isLoaded, arrCategoriesTypes]);
+  }, [isLoadedMap, arrCategoriesTypes]);
 
   const getPlaceDetails = (service, placeId) => {
     return new Promise((resolve) => {
       service.getDetails({ placeId }, (place, status) => {
         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          const photoUrl =
-            place.photos && place.photos.length > 0
-              ? place.photos[0].getUrl()
-              : null;
+          // const photoUrl =
+          //   place.photos && place.photos.length > 0
+          //     ? place.photos[0].getUrl()
+          //     : null;
           resolve({
-            id: place.place_id,
+            place_id: place.place_id,
             name: place.name,
             rating: place.rating,
-            address: place.formatted_address,
-            businessStatus: place.business_status,
-            photo: photoUrl,
+            formatted_address: place.formatted_address,
+            business_status: place.business_status,
+            photo: place.photos,
             position: {
               lat: place.geometry.location.lat(),
               lng: place.geometry.location.lng(),
             },
             types: place.types,
-            userRatingTotal: place.user_ratings_total,
-            openingHours: place.opening_hours || null,
+            user_ratings_total: place.user_ratings_total,
+            opening_hours: place.opening_hours || null,
             isOpen: place.opening_hours ? place.opening_hours.isOpen() : null,
             icon: place.icon,
           });
@@ -130,7 +132,7 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
 
   console.log(places);
 
-  if (!isLoaded) return <Loader />;
+  if (!isLoadedMap) return <Loader />;
 
   return (
     <GoogleMap
@@ -157,7 +159,7 @@ const MapItem = ({ modalInfoPlace, setModalInfoPlace }: Props) => {
 
       {places.map((place) => (
         <Circle
-          key={place.id}
+          key={place.place_id}
           radius={8}
           center={{
             lat: place.position.lat,

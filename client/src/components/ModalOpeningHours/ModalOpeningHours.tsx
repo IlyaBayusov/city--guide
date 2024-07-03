@@ -51,7 +51,13 @@ export default function ModalOpeningHours({
             </button>
           </div>
 
-          <div className=""></div>
+          <div className="">
+            {placeInfo.opening_hours?.weekday_text.map((item, id) => (
+              <p key={id} className="text-center text-xs font-semibold">
+                {item}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </div>

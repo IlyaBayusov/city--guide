@@ -1,19 +1,19 @@
 export interface IPlaceInfo {
-  id: string;
+  place_id: string;
   name: string;
   rating: number;
-  address: string;
-  photo: string;
+  formatted_address: string;
+  business_status: string;
+  photo: object[];
   position: {
     lat: number;
     lng: number;
   };
   types: string[];
-  userRatingTotal: number | undefined;
-  openingHours: {
+  user_ratings_total: number | undefined;
+  opening_hours: {
     periods: object[];
     weekday_text: string[];
   };
-  isOpen: boolean | null;
   icon: string;
 }

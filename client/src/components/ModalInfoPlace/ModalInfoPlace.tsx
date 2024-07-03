@@ -1,7 +1,5 @@
 import i_close24 from "@/assets/i_close24.png";
 import { useContext, useEffect, useState } from "react";
-import i_fav from "@/assets/i_fav.png";
-import i_favout from "@/assets/i_favout.png";
 import i_starGray from "@/assets/i_starGray.png";
 import i_starYellow from "@/assets/i_starYellow.png";
 import { Context } from "../../context";
@@ -52,19 +50,17 @@ export default function ModalInfoPlace({
   }
 
   const getDate = () => {
-    if (placeInfo.openingHours) {
-      placeInfo.openingHours.periods.map((item: Periods) => {
-        if (date?.day == item?.close.day) {
-          setOpeningHours(placeInfo.openingHours.weekday_text[date?.day]);
+    if (placeInfo.opening_hours?.periods.length == 1)
+      setOpeningHours("Открыто 24 часа в сутки");
+    if (placeInfo?.opening_hours) {
+      placeInfo.opening_hours.periods.map((item: Periods) => {
+        if (date?.day == item?.close?.day || item?.open?.day) {
+          setOpeningHours(placeInfo.opening_hours.weekday_text[date?.day]);
         }
       });
     } else {
       setOpeningHours("");
     }
-  };
-
-  const showModalOpeningHours = () => {
-    setModalOpeningHours();
   };
 
   //#FFC400
@@ -106,7 +102,7 @@ export default function ModalInfoPlace({
 
           <div className="">
             <p className="max-w-80 text-xs font-medium mb-3">
-              {placeInfo.address}
+              {placeInfo.formatted_address}
             </p>
 
             <div className="mb-3 flex items-center justify-start">
@@ -123,7 +119,7 @@ export default function ModalInfoPlace({
             <div className="mb-3 flex items-center justify-between">
               <button
                 className="text-xs font-semibold hover:underline"
-                onClick={showModalOpeningHours}
+                onClick={setModalOpeningHours}
               >
                 {openingHours || "Закрыто"}
               </button>

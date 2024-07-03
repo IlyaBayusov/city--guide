@@ -19,6 +19,7 @@ import { IPlaceInfo } from "./models/IPlaceInfo";
 
 export default observer(function App() {
   const [isLoader, setIsLoader] = useState(true);
+  const [isLoadedMap, setIsLoadedMap] = useState(false);
   const [mapCenter, setMapCenter] = useState(locMinsk);
   const [userCenter, setUserCenter] = useState({});
   const [zoom, setZoom] = useState(9);
@@ -76,6 +77,8 @@ export default observer(function App() {
           setUserCenter,
           modalSearchMenu,
           setModalSearchMenu,
+          isLoadedMap,
+          setIsLoadedMap,
         }}
       >
         <Routes>
